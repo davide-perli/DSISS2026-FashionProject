@@ -1998,10 +1998,11 @@ textarea:focus-visible {
 .viewnav {
   display: flex;
   gap: 22px;
-  align-self: flex-end;
+  align-self: flex-start;
   /* the tabs sit down on the header's own rule: 16px of padding plus the 2px
      border, so an active tab's underline lands exactly on it */
-  margin-bottom: -18px;
+  margin-top: 12px;
+  margin-bottom: 0px;
 }
 
 .viewnav button {

@@ -217,6 +217,7 @@ export default function App() {
       const res = await api.analyze(file, save && !!health?.neo4j, brand);
       setResult(res);
       setPhase("done");
+      setSave(false);
       analysed.current += 1;
       if (res.garments.some((g) => g.saved)) refreshAll();
     } catch (e) {
@@ -265,10 +266,10 @@ export default function App() {
   // the icon shows the state, the label says what pressing it does next
   const themeLabel =
     theme === "system"
-      ? `following your machine (${systemDark ? "dark" : "light"}) — press for light`
+      ? `System (${systemDark ? "dark" : "light"})`
       : theme === "light"
-        ? "light — press for dark"
-        : "dark — press to follow your machine again";
+        ? "Light"
+        : "Dark";
   const graphUp = conn === "up" && !!health?.neo4j;
   const corrections = feedbackStats?.corpus.total ?? 0;
   const symbol = ontology?.currency_symbol ?? "€";
@@ -282,16 +283,16 @@ export default function App() {
         <div className="wordmark">
           <h1>Fitting Room</h1>
           <p>garment collection · determined locally</p>
-        </div>
 
-        <nav className="viewnav" aria-label="section">
-          <button aria-pressed={view === "app"} onClick={() => goto("app")}>
-            Wardrobe
-          </button>
-          <button aria-pressed={view === "admin"} onClick={() => goto("admin")}>
-            Admin
-          </button>
-        </nav>
+          <nav className="viewnav" aria-label="section">
+            <button aria-pressed={view === "app"} onClick={() => goto("app")}>
+              Wardrobe
+            </button> 
+            <button aria-pressed={view === "admin"} onClick={() => goto("admin")}>
+              Admin
+            </button>
+          </nav>
+        </div>
 
         <div className="top-right">
           <span className="pill" data-state={conn}>
