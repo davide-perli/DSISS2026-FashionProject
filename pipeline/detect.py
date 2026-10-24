@@ -39,12 +39,14 @@ from PIL import Image
 
 from config import (
     BAND_DISTRACTORS,
+    CATEGORIES,
     CATEGORIES_BY_REGION,
     CATEGORY_REGION,
     DETECT_FILE,
     DETECT_SPEAK,
     DETECTION_BANDS,
     MIN_BAND_PX,
+    NON_CLOTHING_LABELS,
     PROBE_CARRIED_NEGATIVE,
     PROBE_CARRIED_POSITIVE,
     PROBE_CATEGORIES,
@@ -54,6 +56,27 @@ from config import (
     PROBE_SPEAK,
     REGION_TITLES,
 )
+
+def validate_clothing_image(image: Image.Image) -> tuple[bool, str | None]:
+    """Check whether the image is more likely to show a wardrobe item."""
+
+    from pipeline import classify
+
+    clothing_labels = list(CATEGORIES.keys())
+    labels = clothing_labels + NON_CLOTHING_LABELS
+
+    ranked = dict(classify.rank_labels(image, labels))
+
+    best_clothing_score = max(ranked[label] for label in clothing_labels)
+    best_non_clothing_score = max(ranked[label] for label in NON_CLOTHING_LABELS)
+
+    if best_non_clothing_score > best_clothing_score:
+        return False, (
+            "This photo doesn't appear to show clothing or fashion items. "
+            "Please upload a photo of clothing, footwear, or an accessory."
+        )
+
+    return True, None
 
 # A band is widened sideways relative to the clothing box, because feet stand
 # wider than trousers and a hat is wider than a collar.

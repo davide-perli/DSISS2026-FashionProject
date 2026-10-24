@@ -308,6 +308,13 @@ async def analyze(
     # rather than being smeared into a single confused reading.
     seg = remove_bg.segment_garments(image)
     working = seg["image"]
+    is_clothing, rejection_message = detect.validate_clothing_image(working)
+    if not is_clothing:
+        raise HTTPException(
+            status_code=400,
+            detail=rejection_message
+            or "This photo doesn't appear to contain clothing. Please upload a clothing item.",
+        )
     notes: list[str] = list(seg["notes"])
 
     results: list[GarmentResult] = []
@@ -389,8 +396,7 @@ async def analyze(
     # is the image that should travel with it into the corpus.
     _remember(upload_id, working, None, {}, None, filename)
 
-    return Analysis(analysis_id=upload_id, count=len(results),
-                    brand=brand, garments=results, notes=notes)
+    return Analysis(analysis_id=upload_id, count=len(results), brand=brand, garments=results, notes=notes)
 
 
 def _file_piece(*, tags: dict, rgba, rgb, brand, save: bool, filename: str,

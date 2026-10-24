@@ -91,6 +91,26 @@ KINDS = ["clothing", "footwear", "headwear", "eyewear", "jewellery",
          "accessory", "bag"]
 
 # ----------------------------------------------------------------------------
+# NON_CLOATHING_LABELS is used to determine if an object is not cloathing, meaning
+# that if the model is more confident that the object's label is from non_cloathing,
+# compared to a cloathing label from CATEGORIES list (this list is defined a couple of
+# rows bellow) then it means the object is not cloathing
+# ----------------------------------------------------------------------------
+NON_CLOTHING_LABELS = [
+    "animal",
+    "food",
+    "furniture",
+    "vehicle",
+    "landscape",
+    "building",
+    "plant",
+    "electronic device",
+    "household object",
+    "toy",
+    "document",
+]
+
+# ----------------------------------------------------------------------------
 # Categories: every piece an outfit can be made of
 #
 # category -> (region, kind, warmth, layer, typical mid-tier price in EUR)
