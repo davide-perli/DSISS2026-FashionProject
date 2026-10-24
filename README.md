@@ -535,6 +535,13 @@ uvicorn api:app --port 8000        # terminal one
 cd frontend && npm install && npm run dev   # terminal two, http://localhost:5173
 ```
 
+If your PowerShell verion is lower than `PowerShell (Core) 7` (typically in `Windows 10`) use:
+
+```bash
+uvicorn api:app --port 8000        # terminal one
+cd frontend; npm install; npm run dev   # terminal two, http://localhost:5173
+```
+
 `frontend/` is a React + TypeScript app built with Vite. It is five sections on
 one page, in the order the pipeline runs: **specimen** (drag, click or paste one
 photo), **reading** (the cutout beside the original, the five attributes with
